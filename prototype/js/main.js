@@ -24,10 +24,7 @@ async function initApplication() {
         return;
     }
 
-    // Dispatch data loaded event
-    window.dispatchEvent(new Event('dataLoaded'));
-
-    // Initialize all components
+    // Initialize all components BEFORE dispatching dataLoaded event
     try {
         // Layout management (resizable panels, view switching, etc.)
         if (typeof window.initLayout === 'function') {
@@ -35,7 +32,7 @@ async function initApplication() {
             console.log('✓ Layout initialized');
         }
 
-        // Stories view (list/graph/tree)
+        // Stories view (list/graph/tree) - initialize before dataLoaded event
         if (typeof window.initStoriesView === 'function') {
             window.initStoriesView();
             console.log('✓ Stories view initialized');
@@ -70,6 +67,9 @@ async function initApplication() {
         // Setup explain mode
         setupExplainMode();
         console.log('✓ Explain mode initialized');
+
+        // Dispatch data loaded event AFTER all components are initialized
+        window.dispatchEvent(new Event('dataLoaded'));
 
         console.log('✅ Application initialized successfully');
 

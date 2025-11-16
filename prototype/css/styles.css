@@ -65,7 +65,7 @@
     --left-panel-width: 320px;
     --right-panel-width: 400px;
     --bottom-panel-height: 250px;
-    --resizer-width: 4px;
+    --resizer-width: 6px; /* Increased from 4px for better visibility and easier grabbing */
 }
 
 /* ============================================
@@ -206,8 +206,10 @@ body {
 .top-panels {
     flex: 1;
     display: flex;
+    flex-direction: row;
     overflow: hidden;
     min-height: 0;
+    position: relative;
 }
 
 .panel {
@@ -215,29 +217,36 @@ body {
     flex-direction: column;
     background: var(--bg-secondary);
     overflow: hidden;
+    position: relative;
 }
 
 .left-panel {
+    order: 1;
     width: var(--left-panel-width);
     border-right: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 
 .center-panel {
+    order: 2;
     flex: 1;
     min-width: 0;
 }
 
 .right-panel {
+    order: 3;
     width: var(--right-panel-width);
     border-left: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 
 .bottom-panel {
+    width: 100%;
     height: var(--bottom-panel-height);
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-header {
@@ -294,22 +303,56 @@ body {
     background: var(--border-color);
     cursor: col-resize;
     flex-shrink: 0;
-    transition: background var(--transition-fast);
+    transition: background var(--transition-fast), width var(--transition-fast);
     position: relative;
+    z-index: 1000; /* Very high z-index to ensure it's on top */
+    user-select: none;
+    min-width: 6px;
+    pointer-events: auto !important;
+    touch-action: none;
+    margin: 0;
+    padding: 0;
+    /* Make resizer more visible */
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#leftResizer {
+    order: 1.5;
+}
+
+#centerResizer {
+    order: 2.5;
 }
 
 .resizer.vertical-resizer {
     width: 100%;
     height: var(--resizer-width);
     cursor: row-resize;
+    min-height: 4px;
 }
 
 .resizer:hover {
-    background: var(--primary);
+    background: var(--primary) !important;
+    width: 8px !important; /* Wider on hover for better visibility */
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
+    opacity: 1 !important;
 }
 
 .resizer.resizing {
     background: var(--primary);
+    width: 8px;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+}
+
+.resizer.vertical-resizer:hover {
+    height: 8px;
+    width: 100%;
+}
+
+.resizer.vertical-resizer.resizing {
+    height: 8px;
+    width: 100%;
 }
 
 /* ============================================
@@ -416,17 +459,23 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: 400px;
+    overflow: hidden;
 }
 
 .graph-container {
     width: 100%;
     height: 100%;
+    min-height: 400px;
     background: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
 }
 
 #storiesGraphSvg {
     width: 100%;
     height: 100%;
+    display: block;
 }
 
 .graph-node {

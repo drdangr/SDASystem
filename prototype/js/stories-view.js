@@ -28,14 +28,23 @@ class StoriesView {
             this.renderCurrentView();
         });
 
-        // Listen for data loaded event
+        // Load stories immediately if data is already available
+        if (window.AppData && window.AppData.stories) {
+            this.stories = window.AppData.stories || [];
+            console.log('StoriesView: Loaded', this.stories.length, 'stories on init');
+            this.renderCurrentView();
+        }
+
+        // Listen for data loaded event (in case data loads later)
         window.addEventListener('dataLoaded', () => {
             this.stories = window.AppData.stories || [];
+            console.log('StoriesView: Received dataLoaded event, stories count:', this.stories.length);
             this.renderCurrentView();
         });
     }
 
     renderCurrentView() {
+        console.log('StoriesView: renderCurrentView called, view:', this.currentView, 'stories count:', this.stories.length);
         switch (this.currentView) {
             case 'list':
                 this.renderList();
@@ -46,6 +55,8 @@ class StoriesView {
             case 'tree':
                 this.renderTree();
                 break;
+            default:
+                console.warn('StoriesView: Unknown view mode:', this.currentView);
         }
     }
 
@@ -67,9 +78,19 @@ class StoriesView {
 
     renderList() {
         const container = document.getElementById('storiesList');
-        if (!container) return;
+        if (!container) {
+            console.error('StoriesView: storiesList container not found!');
+            return;
+        }
 
         const sortedStories = this.sortStories();
+        console.log('StoriesView: Rendering', sortedStories.length, 'stories');
+
+        if (sortedStories.length === 0) {
+            console.warn('StoriesView: No stories to render!');
+            container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">No stories found</div>';
+            return;
+        }
 
         container.innerHTML = sortedStories.map(story => this.createStoryListItem(story)).join('');
 
@@ -212,12 +233,19 @@ class StoriesView {
             nodeElements.push({ element: g, node: node });
         });
 
-        // Force-directed simulation
+        // Force-directed simulation with stabilization
+        let iteration = 0;
+        let maxIterations = 300; // Stop after 300 iterations
+        let stableCount = 0;
+        const stabilityThreshold = 0.1; // Consider stable when max velocity < 0.1
+
         const simulate = () => {
-            const alpha = 0.3; // cooling factor
-            const linkStrength = 0.1;
-            const repulsion = 3000;
-            const centerStrength = 0.05;
+            iteration++;
+            let maxVelocity = 0;
+            const linkStrength = 0.08;
+            const repulsion = 5000;
+            const centerStrength = 0.02;
+            const damping = 0.9; // Increased damping for stability
 
             // Apply forces
             nodes.forEach(node => {
@@ -233,17 +261,17 @@ class StoriesView {
                     const dy = node.y - other.y;
                     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
-                    // Minimum distance based on node radii
-                    const minDist = node.r + other.r + 20; // 20px padding
+                    // Minimum distance based on node radii with more padding
+                    const minDist = node.r + other.r + 40; // Increased padding
 
                     // Strong repulsion when nodes are too close (collision)
                     if (dist < minDist) {
-                        const force = repulsion * 2 / (dist * dist);
+                        const force = (repulsion * 3) / (dist * dist);
                         ax += (dx / dist) * force;
                         ay += (dy / dist) * force;
                     }
                     // Normal repulsion at medium distance
-                    else if (dist < 300) {
+                    else if (dist < 400) {
                         const force = repulsion / (dist * dist);
                         ax += (dx / dist) * force;
                         ay += (dy / dist) * force;
@@ -256,7 +284,8 @@ class StoriesView {
                         const dx = link.target.x - node.x;
                         const dy = link.target.y - node.y;
                         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                        const force = dist * linkStrength * link.strength;
+                        const idealDist = (node.r + link.target.r) * 2.5; // Ideal distance between connected nodes
+                        const force = (dist - idealDist) * linkStrength * link.strength;
 
                         ax += (dx / dist) * force;
                         ay += (dy / dist) * force;
@@ -264,34 +293,41 @@ class StoriesView {
                         const dx = link.source.x - node.x;
                         const dy = link.source.y - node.y;
                         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                        const force = dist * linkStrength * link.strength;
+                        const idealDist = (node.r + link.source.r) * 2.5;
+                        const force = (dist - idealDist) * linkStrength * link.strength;
 
                         ax += (dx / dist) * force;
                         ay += (dy / dist) * force;
                     }
                 });
 
-                // Center attraction
+                // Center attraction (weaker)
                 const centerX = width / 2;
                 const centerY = height / 2;
                 ax += (centerX - node.x) * centerStrength;
                 ay += (centerY - node.y) * centerStrength;
 
-                // Update velocity with damping
-                node.vx = (node.vx + ax) * 0.85;
-                node.vy = (node.vy + ay) * 0.85;
+                // Update velocity with stronger damping
+                node.vx = (node.vx + ax) * damping;
+                node.vy = (node.vy + ay) * damping;
+
+                // Track max velocity for stability check
+                const velocity = Math.sqrt(node.vx * node.vx + node.vy * node.vy);
+                if (velocity > maxVelocity) {
+                    maxVelocity = velocity;
+                }
 
                 // Update position
                 node.x += node.vx;
                 node.y += node.vy;
 
-                // Boundary constraints
-                const padding = node.r + 10;
+                // Boundary constraints with padding
+                const padding = node.r + 20;
                 node.x = Math.max(padding, Math.min(width - padding, node.x));
                 node.y = Math.max(padding, Math.min(height - padding, node.y));
             });
 
-            // Post-process: separate overlapping nodes
+            // Post-process: separate overlapping nodes more aggressively
             for (let i = 0; i < nodes.length; i++) {
                 for (let j = i + 1; j < nodes.length; j++) {
                     const nodeA = nodes[i];
@@ -300,11 +336,11 @@ class StoriesView {
                     const dx = nodeB.x - nodeA.x;
                     const dy = nodeB.y - nodeA.y;
                     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                    const minDist = nodeA.r + nodeB.r + 20;
+                    const minDist = nodeA.r + nodeB.r + 40; // Increased minimum distance
 
-                    // If overlapping, push them apart
+                    // If overlapping, push them apart more aggressively
                     if (dist < minDist) {
-                        const pushDist = (minDist - dist) / 2;
+                        const pushDist = (minDist - dist) * 0.6; // More aggressive push
                         const angle = Math.atan2(dy, dx);
 
                         nodeA.x -= Math.cos(angle) * pushDist;
@@ -327,6 +363,20 @@ class StoriesView {
                 element.setAttribute('transform', `translate(${node.x}, ${node.y})`);
             });
 
+            // Check for stability
+            if (maxVelocity < stabilityThreshold) {
+                stableCount++;
+            } else {
+                stableCount = 0;
+            }
+
+            // Stop if stable for 10 iterations or max iterations reached
+            if (stableCount >= 10 || iteration >= maxIterations) {
+                console.log('Graph simulation stabilized after', iteration, 'iterations');
+                this.simulation = null;
+                return;
+            }
+
             // Continue simulation
             this.simulation = requestAnimationFrame(simulate);
         };
@@ -334,7 +384,7 @@ class StoriesView {
         // Start simulation
         simulate();
 
-        // Stop simulation after some time to save resources
+        // Fallback: stop simulation after timeout
         setTimeout(() => {
             if (this.simulation) {
                 cancelAnimationFrame(this.simulation);

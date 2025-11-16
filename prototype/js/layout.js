@@ -18,16 +18,24 @@ class LayoutManager {
         const centerResizer = document.getElementById('centerResizer');
         const bottomResizer = document.getElementById('bottomResizer');
 
+        console.log('Layout: Initializing resizers...');
+        console.log('Layout: leftResizer found:', !!leftResizer);
+        console.log('Layout: centerResizer found:', !!centerResizer);
+        console.log('Layout: bottomResizer found:', !!bottomResizer);
+
         if (leftResizer) {
             this.setupResizer(leftResizer, 'left');
+            console.log('Layout: leftResizer setup complete');
         }
 
         if (centerResizer) {
-            this.setupResizer(centerResizer, 'right');
+            this.setupResizer(centerResizer, 'center');
+            console.log('Layout: centerResizer setup complete');
         }
 
         if (bottomResizer) {
             this.setupResizer(bottomResizer, 'bottom');
+            console.log('Layout: bottomResizer setup complete');
         }
 
         // Setup view mode switcher
@@ -46,7 +54,20 @@ class LayoutManager {
     setupResizer(resizer, side) {
         const isVertical = side === 'bottom';
 
+        // Add test click handler to verify resizer is clickable
+        resizer.addEventListener('click', (e) => {
+            console.log('Layout: Resizer clicked on', side);
+        });
+
+        resizer.addEventListener('mouseenter', () => {
+            console.log('Layout: Mouse entered resizer', side);
+        });
+
         resizer.addEventListener('mousedown', (e) => {
+            console.log('Layout: Resizer mousedown on', side, 'clientX:', e.clientX);
+            e.preventDefault(); // Prevent text selection
+            e.stopPropagation(); // Prevent event bubbling
+            
             this.isResizing = true;
             this.currentResizer = resizer;
             this.currentSide = side;
@@ -57,7 +78,8 @@ class LayoutManager {
             if (side === 'left') {
                 panel = document.getElementById('leftPanel');
                 this.startWidth = panel.offsetWidth;
-            } else if (side === 'right') {
+            } else if (side === 'right' || side === 'center') {
+                // Center resizer changes right panel width
                 panel = document.getElementById('rightPanel');
                 this.startWidth = panel.offsetWidth;
             } else if (side === 'bottom') {
@@ -78,6 +100,7 @@ class LayoutManager {
     handleMouseMove = (e) => {
         if (!this.isResizing) return;
 
+        console.log('Layout: handleMouseMove called, side:', this.currentSide, 'clientX:', e.clientX);
         const side = this.currentSide;
 
         if (side === 'bottom') {
@@ -97,7 +120,7 @@ class LayoutManager {
             // Update CSS variable
             document.documentElement.style.setProperty('--bottom-panel-height', newHeight + 'px');
         } else {
-            // Horizontal resizing for left/right panels
+            // Horizontal resizing for left/right/center panels
             const delta = e.clientX - this.startX;
             const isLeftPanel = side === 'left';
 
@@ -105,6 +128,7 @@ class LayoutManager {
             if (isLeftPanel) {
                 newWidth = this.startWidth + delta;
             } else {
+                // Both right and center resizers change right panel width
                 newWidth = this.startWidth - delta;
             }
 
@@ -119,6 +143,7 @@ class LayoutManager {
                 : document.getElementById('rightPanel');
 
             panel.style.width = newWidth + 'px';
+            console.log('Layout: Panel width updated to', newWidth, 'px for', isLeftPanel ? 'left' : 'right', 'panel');
 
             // Update CSS variable
             const varName = isLeftPanel ? '--left-panel-width' : '--right-panel-width';

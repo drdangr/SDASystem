@@ -16,6 +16,7 @@ const AppData = {
 
 async function loadData() {
     try {
+        console.log('Loading data from JSON files...');
         // Load all data in parallel
         const [storiesRes, actorsRes, postsRes, relationshipsRes] = await Promise.all([
             fetch('data/stories.json'),
@@ -23,6 +24,20 @@ async function loadData() {
             fetch('data/posts.json'),
             fetch('data/relationships.json')
         ]);
+
+        // Check if responses are OK
+        if (!storiesRes.ok) {
+            console.error('Failed to load stories.json:', storiesRes.status, storiesRes.statusText);
+        }
+        if (!actorsRes.ok) {
+            console.error('Failed to load actors.json:', actorsRes.status, actorsRes.statusText);
+        }
+        if (!postsRes.ok) {
+            console.error('Failed to load posts.json:', postsRes.status, postsRes.statusText);
+        }
+        if (!relationshipsRes.ok) {
+            console.error('Failed to load relationships.json:', relationshipsRes.status, relationshipsRes.statusText);
+        }
 
         const [storiesData, actorsData, postsData, relationshipsData] = await Promise.all([
             storiesRes.json(),
@@ -37,9 +52,19 @@ async function loadData() {
         AppData.relationships = relationshipsData.relationships || [];
 
         console.log('Data loaded successfully:', AppData);
+        console.log('Stories count:', AppData.stories.length);
+        console.log('Actors count:', AppData.actors.length);
+        console.log('Posts count:', AppData.posts.length);
+        console.log('Relationships count:', AppData.relationships.length);
+        
+        if (AppData.stories.length === 0) {
+            console.warn('WARNING: No stories loaded!');
+        }
+        
         return true;
     } catch (error) {
         console.error('Error loading data:', error);
+        console.error('Error details:', error.message, error.stack);
         return false;
     }
 }
