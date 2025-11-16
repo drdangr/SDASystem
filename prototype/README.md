@@ -56,10 +56,10 @@ prototype/
 ├── actors.html             # [Deprecated] Редирект на index.html
 ├── posts.html              # [Deprecated] Редирект на index.html
 ├── data/                   # Мокап данные
-│   ├── stories.json        # 3 сюжета с метриками
-│   ├── actors.json         # 8 акторов
-│   ├── posts.json          # 10 постов
-│   └── relationships.json  # 8 связей между акторами
+│   ├── stories.json        # 9 сюжетов с метриками
+│   ├── actors.json         # 23 актора
+│   ├── posts.json          # 23 поста
+│   └── relationships.json  # 26 связей между акторами
 ├── css/
 │   └── styles.css          # Полная стилизация трёхпанельного UI
 └── js/
@@ -150,7 +150,7 @@ npx http-server -p 8000
 
 ## 📊 Мокап данные
 
-### Stories (3 сюжета)
+### Stories (9 сюжетов)
 1. **GPT-5 Launch and Industry Response**
    - 6 posts, relevance: 95%, cohesion: 88%
    - Actors: OpenAI, Microsoft, Google DeepMind
@@ -163,13 +163,39 @@ npx http-server -p 8000
    - 2 posts, relevance: 78%, cohesion: 90%
    - Actors: Elon Musk, xAI
 
-### Actors (8 акторов)
-- **Companies**: OpenAI, Microsoft, Google DeepMind, xAI
-- **People**: Sam Altman, Elon Musk
-- **Organizations**: European Union, US Congress
+4. **NVIDIA Dominance and AI Chip Supply Chain**
+   - 3 posts, relevance: 82%, cohesion: 85%
+   - Actors: NVIDIA, Jensen Huang, China, Baidu
 
-### Relationships (8 связей)
-- Types: `member_of`, `ally_of`, `competitor_of`, `part_of`, `owns`, `regulates`
+5. **Meta and Anthropic Compete in Open-Source AI**
+   - 4 posts, relevance: 79%, cohesion: 83%
+   - Actors: Meta, Anthropic, AWS, Mark Zuckerberg, Dario Amodei
+
+6. **Apple Enters AI Race with iPhone Integration**
+   - 2 posts, relevance: 85%, cohesion: 88%
+   - Actors: Apple, Tim Cook, OpenAI
+
+7. **International AI Governance and Safety Cooperation**
+   - 1 post, relevance: 76%, cohesion: 80%
+   - Actors: UK Government, OpenAI, Google DeepMind, EU
+
+8. **Tesla and xAI: Musk's Dual AI Ventures**
+   - 3 posts, relevance: 73%, cohesion: 87%
+   - Actors: Elon Musk, Tesla, xAI
+
+9. **China's AI Development and Geopolitical Tensions**
+   - 3 posts, relevance: 81%, cohesion: 84%
+   - Actors: China, Baidu, NVIDIA
+
+### Actors (23 актора)
+- **Companies**: OpenAI, Microsoft, Google DeepMind, xAI, Anthropic, Meta, Baidu, NVIDIA, Tesla, Amazon, Apple, Stability AI
+- **People**: Sam Altman, Elon Musk, Dario Amodei, Mark Zuckerberg, Jensen Huang, Andy Jassy, Tim Cook
+- **Organizations**: European Union, US Congress, UK Government
+- **Countries**: China
+
+### Relationships (26 связей)
+- Types: `member_of`, `ally_of`, `competitor_of`, `part_of`, `owns`, `regulates`, `partner_of`, `supplier_of`
+- Включает связи CEO-компании, конкурентов, партнеров, поставщиков (NVIDIA как поставщик чипов), регуляторов
 
 ## 🎨 Design Principles
 
