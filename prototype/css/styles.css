@@ -65,7 +65,7 @@
     --left-panel-width: 320px;
     --right-panel-width: 400px;
     --bottom-panel-height: 250px;
-    --resizer-width: 6px; /* Increased from 4px for better visibility and easier grabbing */
+    --resizer-width: 8px; /* Increased for better visibility and easier grabbing */
 }
 
 /* ============================================
@@ -228,13 +228,13 @@ body {
 }
 
 .center-panel {
-    order: 2;
+    order: 3; /* After leftResizer (order: 2) */
     flex: 1;
     min-width: 0;
 }
 
 .right-panel {
-    order: 3;
+    order: 5; /* After centerResizer (order: 4) */
     width: var(--right-panel-width);
     border-left: 1px solid var(--border-color);
     flex-shrink: 0;
@@ -300,49 +300,58 @@ body {
 
 .resizer {
     width: var(--resizer-width);
-    background: var(--border-color);
     cursor: col-resize;
     flex-shrink: 0;
+    flex-grow: 0;
     transition: background var(--transition-fast), width var(--transition-fast);
     position: relative;
     z-index: 1000; /* Very high z-index to ensure it's on top */
     user-select: none;
-    min-width: 6px;
+    min-width: 8px;
     pointer-events: auto !important;
     touch-action: none;
     margin: 0;
     padding: 0;
-    /* Make resizer more visible */
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    /* Make resizer more visible with bright background */
+    background: rgba(59, 130, 246, 0.4) !important;
+    border-left: 2px solid rgba(59, 130, 246, 0.6);
+    border-right: 2px solid rgba(59, 130, 246, 0.6);
+    /* Ensure resizer has full height in flex container */
+    align-self: stretch;
+    height: 100%;
 }
 
 #leftResizer {
-    order: 1.5;
+    order: 2 !important; /* After left panel (order: 1), before center panel (order: 3) */
 }
 
 #centerResizer {
-    order: 2.5;
+    order: 4 !important; /* After center panel (order: 3), before right panel (order: 5) */
 }
 
 .resizer.vertical-resizer {
     width: 100%;
     height: var(--resizer-width);
     cursor: row-resize;
-    min-height: 4px;
+    min-height: 8px;
+    align-self: auto; /* Reset align-self for vertical resizer */
 }
 
 .resizer:hover {
     background: var(--primary) !important;
-    width: 8px !important; /* Wider on hover for better visibility */
-    box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
+    width: 14px !important; /* Wider on hover for better visibility */
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
     opacity: 1 !important;
+    border-left: 3px solid var(--primary);
+    border-right: 3px solid var(--primary);
 }
 
 .resizer.resizing {
-    background: var(--primary);
-    width: 8px;
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+    background: var(--primary) !important;
+    width: 14px !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 1);
+    border-left: 3px solid var(--primary);
+    border-right: 3px solid var(--primary);
 }
 
 .resizer.vertical-resizer:hover {
