@@ -17,12 +17,13 @@ const AppData = {
 async function loadData() {
     try {
         console.log('Loading data from JSON files...');
-        // Load all data in parallel
+        // Load all data in parallel with cache busting
+        const cacheBuster = '?v=' + Date.now();
         const [storiesRes, actorsRes, postsRes, relationshipsRes] = await Promise.all([
-            fetch('data/stories.json'),
-            fetch('data/actors.json'),
-            fetch('data/posts.json'),
-            fetch('data/relationships.json')
+            fetch('data/stories.json' + cacheBuster),
+            fetch('data/actors.json' + cacheBuster),
+            fetch('data/posts.json' + cacheBuster),
+            fetch('data/relationships.json' + cacheBuster)
         ]);
 
         // Check if responses are OK

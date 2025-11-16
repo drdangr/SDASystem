@@ -79,6 +79,186 @@
       "confidence": 0.75,
       "created_at": "2024-06-15T10:00:00Z",
       "ttl": "2025-06-15T10:00:00Z"
+    },
+    {
+      "id": "rel_009",
+      "from_actor": "actor_010",
+      "to_actor": "actor_009",
+      "type": "member_of",
+      "role": "CEO",
+      "confidence": 1.0,
+      "created_at": "2024-02-20T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_010",
+      "from_actor": "actor_009",
+      "to_actor": "actor_001",
+      "type": "competitor_of",
+      "role": null,
+      "confidence": 0.88,
+      "created_at": "2024-03-01T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_011",
+      "from_actor": "actor_012",
+      "to_actor": "actor_011",
+      "type": "member_of",
+      "role": "CEO",
+      "confidence": 1.0,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_012",
+      "from_actor": "actor_011",
+      "to_actor": "actor_001",
+      "type": "competitor_of",
+      "role": null,
+      "confidence": 0.82,
+      "created_at": "2024-04-10T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_013",
+      "from_actor": "actor_011",
+      "to_actor": "actor_005",
+      "type": "part_of",
+      "role": "parent company",
+      "confidence": 1.0,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_014",
+      "from_actor": "actor_013",
+      "to_actor": "actor_015",
+      "type": "regulates",
+      "role": "export restrictions",
+      "confidence": 0.85,
+      "created_at": "2024-11-12T08:00:00Z",
+      "ttl": "2025-11-12T08:00:00Z"
+    },
+    {
+      "id": "rel_015",
+      "from_actor": "actor_016",
+      "to_actor": "actor_015",
+      "type": "member_of",
+      "role": "CEO",
+      "confidence": 1.0,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_016",
+      "from_actor": "actor_006",
+      "to_actor": "actor_017",
+      "type": "owns",
+      "role": "CEO",
+      "confidence": 1.0,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_017",
+      "from_actor": "actor_019",
+      "to_actor": "actor_018",
+      "type": "member_of",
+      "role": "CEO",
+      "confidence": 1.0,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_018",
+      "from_actor": "actor_018",
+      "to_actor": "actor_009",
+      "type": "partner_of",
+      "role": "cloud provider",
+      "confidence": 0.90,
+      "created_at": "2024-11-13T15:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_019",
+      "from_actor": "actor_021",
+      "to_actor": "actor_020",
+      "type": "member_of",
+      "role": "CEO",
+      "confidence": 1.0,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_020",
+      "from_actor": "actor_020",
+      "to_actor": "actor_001",
+      "type": "partner_of",
+      "role": "potential integration",
+      "confidence": 0.70,
+      "created_at": "2024-11-16T11:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_021",
+      "from_actor": "actor_022",
+      "to_actor": "actor_001",
+      "type": "regulates",
+      "role": "safety oversight",
+      "confidence": 0.75,
+      "created_at": "2024-11-15T10:00:00Z",
+      "ttl": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "rel_022",
+      "from_actor": "actor_014",
+      "to_actor": "actor_013",
+      "type": "part_of",
+      "role": "domestic company",
+      "confidence": 0.95,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_023",
+      "from_actor": "actor_014",
+      "to_actor": "actor_001",
+      "type": "competitor_of",
+      "role": null,
+      "confidence": 0.80,
+      "created_at": "2024-11-14T11:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_024",
+      "from_actor": "actor_015",
+      "to_actor": "actor_001",
+      "type": "supplier_of",
+      "role": "AI chips",
+      "confidence": 0.95,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_025",
+      "from_actor": "actor_015",
+      "to_actor": "actor_011",
+      "type": "supplier_of",
+      "role": "AI chips",
+      "confidence": 0.90,
+      "created_at": "2024-01-15T10:00:00Z",
+      "ttl": null
+    },
+    {
+      "id": "rel_026",
+      "from_actor": "actor_015",
+      "to_actor": "actor_009",
+      "type": "supplier_of",
+      "role": "AI chips",
+      "confidence": 0.85,
+      "created_at": "2024-02-20T10:00:00Z",
+      "ttl": null
     }
   ]
 }

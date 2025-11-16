@@ -146,6 +146,276 @@
         "domain_similarity": 0.60,
         "temporal_proximity": 0.85
       }
+    },
+    {
+      "id": "story_004",
+      "title": "NVIDIA Dominance and AI Chip Supply Chain",
+      "summary": "NVIDIA's stock surge and China's chip restrictions highlight the critical role of AI hardware in the industry.",
+      "bullets": [
+        "NVIDIA stock surges 8% on strong AI chip demand",
+        "China restricts AI chip exports affecting NVIDIA",
+        "Chinese companies develop domestic AI chips",
+        "Global supply chain tensions intensify"
+      ],
+      "status": "active",
+      "relevance": 0.82,
+      "cohesion": 0.85,
+      "size": 3,
+      "freshness": 0.90,
+      "created_at": "2024-11-12T08:00:00Z",
+      "updated_at": "2024-11-16T10:30:00Z",
+      "posts": ["post_013", "post_014", "post_023"],
+      "top_actors": ["actor_015", "actor_016", "actor_013", "actor_014"],
+      "top_domains": ["bloomberg.com", "wsj.com", "reuters.com"],
+      "timeline": [
+        {
+          "date": "2024-11-12T08:00:00Z",
+          "type": "fact",
+          "content": "China restricts AI chip exports",
+          "post_id": "post_013"
+        },
+        {
+          "date": "2024-11-13T09:00:00Z",
+          "type": "fact",
+          "content": "Chinese companies develop domestic AI chips",
+          "post_id": "post_023"
+        },
+        {
+          "date": "2024-11-16T09:00:00Z",
+          "type": "fact",
+          "content": "NVIDIA stock surges on AI demand",
+          "post_id": "post_014"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.82,
+        "actor_overlap": 0.88,
+        "domain_similarity": 0.75,
+        "temporal_proximity": 0.85
+      }
+    },
+    {
+      "id": "story_005",
+      "title": "Meta and Anthropic Compete in Open-Source AI",
+      "summary": "Meta releases Llama 3.1 while Anthropic launches Claude 3.5, intensifying competition in open-source and safety-focused AI models.",
+      "bullets": [
+        "Meta releases Llama 3.1 with 405B parameters",
+        "Anthropic launches Claude 3.5 Sonnet",
+        "AWS Bedrock platform supports multiple models",
+        "Open-source vs safety-focused AI approaches diverge"
+      ],
+      "status": "active",
+      "relevance": 0.79,
+      "cohesion": 0.83,
+      "size": 3,
+      "freshness": 0.88,
+      "created_at": "2024-11-13T10:00:00Z",
+      "updated_at": "2024-11-15T20:00:00Z",
+      "posts": ["post_011", "post_012", "post_018", "post_022"],
+      "top_actors": ["actor_009", "actor_010", "actor_011", "actor_012", "actor_018", "actor_019"],
+      "top_domains": ["techcrunch.com", "arxiv.org", "wired.com"],
+      "timeline": [
+        {
+          "date": "2024-11-13T10:00:00Z",
+          "type": "fact",
+          "content": "Anthropic releases Claude 3.5 Sonnet",
+          "post_id": "post_011"
+        },
+        {
+          "date": "2024-11-13T15:00:00Z",
+          "type": "fact",
+          "content": "AWS launches Bedrock AI platform",
+          "post_id": "post_018"
+        },
+        {
+          "date": "2024-11-14T14:00:00Z",
+          "type": "fact",
+          "content": "Meta announces Llama 3.1",
+          "post_id": "post_012"
+        },
+        {
+          "date": "2024-11-15T20:00:00Z",
+          "type": "fact",
+          "content": "Meta AI publishes breakthrough training method",
+          "post_id": "post_022"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.75,
+        "actor_overlap": 0.70,
+        "domain_similarity": 0.80,
+        "temporal_proximity": 0.90
+      }
+    },
+    {
+      "id": "story_006",
+      "title": "Apple Enters AI Race with iPhone Integration",
+      "summary": "Apple announces AI features for iPhone 16 and explores partnership with OpenAI for Siri enhancement.",
+      "bullets": [
+        "Apple announces AI features for iPhone 16",
+        "Rumors of OpenAI partnership for Siri",
+        "Focus on on-device processing for privacy",
+        "Tim Cook emphasizes privacy-first approach"
+      ],
+      "status": "active",
+      "relevance": 0.85,
+      "cohesion": 0.88,
+      "size": 2,
+      "freshness": 0.95,
+      "created_at": "2024-11-15T13:00:00Z",
+      "updated_at": "2024-11-16T11:00:00Z",
+      "posts": ["post_016", "post_021"],
+      "top_actors": ["actor_020", "actor_021", "actor_001", "actor_002"],
+      "top_domains": ["techcrunch.com", "bloomberg.com"],
+      "timeline": [
+        {
+          "date": "2024-11-15T13:00:00Z",
+          "type": "fact",
+          "content": "Apple announces AI features for iPhone 16",
+          "post_id": "post_016"
+        },
+        {
+          "date": "2024-11-16T11:00:00Z",
+          "type": "opinion",
+          "content": "Rumors of OpenAI-Apple partnership for Siri",
+          "post_id": "post_021"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.90,
+        "actor_overlap": 0.85,
+        "domain_similarity": 0.70,
+        "temporal_proximity": 0.95
+      }
+    },
+    {
+      "id": "story_007",
+      "title": "International AI Governance and Safety Cooperation",
+      "summary": "UK hosts AI Safety Summit 2025 as international cooperation on AI governance becomes critical.",
+      "bullets": [
+        "UK announces AI Safety Summit 2025",
+        "Focus on international cooperation",
+        "Building on previous summit success",
+        "Multiple countries and companies to participate"
+      ],
+      "status": "active",
+      "relevance": 0.76,
+      "cohesion": 0.80,
+      "size": 1,
+      "freshness": 0.85,
+      "created_at": "2024-11-15T10:00:00Z",
+      "updated_at": "2024-11-15T10:00:00Z",
+      "posts": ["post_019"],
+      "top_actors": ["actor_022", "actor_001", "actor_005", "actor_004"],
+      "top_domains": ["bbc.com", "reuters.com"],
+      "timeline": [
+        {
+          "date": "2024-11-15T10:00:00Z",
+          "type": "fact",
+          "content": "UK announces AI Safety Summit 2025",
+          "post_id": "post_019"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.72,
+        "actor_overlap": 0.60,
+        "domain_similarity": 0.65,
+        "temporal_proximity": 0.80
+      }
+    },
+    {
+      "id": "story_008",
+      "title": "Tesla and xAI: Musk's Dual AI Ventures",
+      "summary": "Elon Musk's companies Tesla and xAI both advance AI capabilities in different domains.",
+      "bullets": [
+        "Tesla integrates AI into Full Self-Driving Beta",
+        "xAI raises $6B funding round",
+        "Musk's vision for AI across multiple industries",
+        "Competition with other AI leaders"
+      ],
+      "status": "active",
+      "relevance": 0.73,
+      "cohesion": 0.87,
+      "size": 3,
+      "freshness": 0.86,
+      "created_at": "2024-11-14T12:00:00Z",
+      "updated_at": "2024-11-16T07:00:00Z",
+      "posts": ["post_006", "post_007", "post_017"],
+      "top_actors": ["actor_006", "actor_007", "actor_017"],
+      "top_domains": ["techcrunch.com", "bloomberg.com", "wsj.com"],
+      "timeline": [
+        {
+          "date": "2024-11-14T12:00:00Z",
+          "type": "fact",
+          "content": "xAI raises $6B funding",
+          "post_id": "post_006"
+        },
+        {
+          "date": "2024-11-14T16:00:00Z",
+          "type": "fact",
+          "content": "Tesla integrates AI into FSD Beta",
+          "post_id": "post_017"
+        },
+        {
+          "date": "2024-11-16T07:00:00Z",
+          "type": "opinion",
+          "content": "Analysts discuss intensifying AI competition",
+          "post_id": "post_007"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.78,
+        "actor_overlap": 0.95,
+        "domain_similarity": 0.70,
+        "temporal_proximity": 0.88
+      }
+    },
+    {
+      "id": "story_009",
+      "title": "China's AI Development and Geopolitical Tensions",
+      "summary": "China develops domestic AI capabilities while restricting exports, creating geopolitical tensions in tech sector.",
+      "bullets": [
+        "Baidu launches Ernie 4.0 in China",
+        "China restricts AI chip exports",
+        "Chinese companies develop domestic chips",
+        "Geopolitical tensions in AI sector"
+      ],
+      "status": "active",
+      "relevance": 0.81,
+      "cohesion": 0.84,
+      "size": 3,
+      "freshness": 0.87,
+      "created_at": "2024-11-12T08:00:00Z",
+      "updated_at": "2024-11-14T11:00:00Z",
+      "posts": ["post_013", "post_015", "post_023"],
+      "top_actors": ["actor_013", "actor_014", "actor_015"],
+      "top_domains": ["reuters.com", "bloomberg.com", "techcrunch.com"],
+      "timeline": [
+        {
+          "date": "2024-11-12T08:00:00Z",
+          "type": "fact",
+          "content": "China restricts AI chip exports",
+          "post_id": "post_013"
+        },
+        {
+          "date": "2024-11-13T09:00:00Z",
+          "type": "fact",
+          "content": "Chinese companies develop domestic AI chips",
+          "post_id": "post_023"
+        },
+        {
+          "date": "2024-11-14T11:00:00Z",
+          "type": "fact",
+          "content": "Baidu launches Ernie 4.0",
+          "post_id": "post_015"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.85,
+        "actor_overlap": 0.90,
+        "domain_similarity": 0.75,
+        "temporal_proximity": 0.88
+      }
     }
   ]
 }
