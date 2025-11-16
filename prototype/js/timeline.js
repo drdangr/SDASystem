@@ -88,7 +88,7 @@ class TimelineView {
                 <div class="timeline-center-line"></div>
                 ${filteredEvents.map((event, index) => {
                     const date = new Date(event.date);
-                    const position = ((date - minDate) / timeSpan) * (width - event Width);
+                    const position = ((date - minDate) / timeSpan) * (width - eventWidth);
 
                     return this.createEventElement(event, position);
                 }).join('')}
