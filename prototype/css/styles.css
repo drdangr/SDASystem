@@ -64,6 +64,7 @@
     --header-height: 60px;
     --left-panel-width: 320px;
     --right-panel-width: 400px;
+    --bottom-panel-height: 250px;
     --resizer-width: 4px;
 }
 
@@ -192,13 +193,21 @@ body {
 }
 
 /* ============================================
-   THREE-PANEL LAYOUT
+   FOUR-PANEL LAYOUT (Top 3 + Bottom Timeline)
    ============================================ */
 
 .app-body {
     flex: 1;
     display: flex;
+    flex-direction: column;
     overflow: hidden;
+}
+
+.top-panels {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .panel {
@@ -222,6 +231,12 @@ body {
 .right-panel {
     width: var(--right-panel-width);
     border-left: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.bottom-panel {
+    height: var(--bottom-panel-height);
+    border-top: 1px solid var(--border-color);
     flex-shrink: 0;
 }
 
@@ -281,6 +296,12 @@ body {
     flex-shrink: 0;
     transition: background var(--transition-fast);
     position: relative;
+}
+
+.resizer.vertical-resizer {
+    width: 100%;
+    height: var(--resizer-width);
+    cursor: row-resize;
 }
 
 .resizer:hover {
@@ -752,6 +773,12 @@ body {
     background: var(--bg-tertiary);
 }
 
+.timeline-controls-inline {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
 .filter-btn {
     padding: var(--spacing-xs) var(--spacing-sm);
     background: var(--bg-secondary);
@@ -803,7 +830,7 @@ body {
     position: relative;
     overflow-x: auto;
     overflow-y: auto;
-    height: calc(100% - 60px);
+    height: 100%;
 }
 
 .timeline-axis {

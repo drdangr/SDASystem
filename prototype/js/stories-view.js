@@ -123,8 +123,11 @@ class StoriesView {
         const svg = document.getElementById('storiesGraphSvg');
         if (!svg) return;
 
-        // Clear previous graph
+        // Clear previous graph and stop any running simulation
         svg.innerHTML = '';
+        if (this.simulation) {
+            cancelAnimationFrame(this.simulation);
+        }
 
         const container = document.querySelector('.graph-container');
         const width = container.clientWidth;
@@ -133,12 +136,14 @@ class StoriesView {
         svg.setAttribute('width', width);
         svg.setAttribute('height', height);
 
-        // Simple force-directed graph (without D3, basic implementation)
+        // Initialize nodes with physics properties
         const nodes = this.stories.map((story, i) => ({
             id: story.id,
-            x: Math.random() * (width - 100) + 50,
-            y: Math.random() * (height - 100) + 50,
-            r: Math.sqrt(story.relevance) * 30 + 10,
+            x: Math.random() * (width - 200) + 100,
+            y: Math.random() * (height - 200) + 100,
+            vx: 0, // velocity x
+            vy: 0, // velocity y
+            r: Math.sqrt(story.relevance) * 30 + 15,
             story: story
         }));
 
@@ -151,37 +156,35 @@ class StoriesView {
                 );
 
                 if (sharedActors.length > 0) {
+                    const sourceNode = nodes.find(n => n.id === this.stories[i].id);
+                    const targetNode = nodes.find(n => n.id === this.stories[j].id);
+
                     links.push({
-                        source: this.stories[i].id,
-                        target: this.stories[j].id,
+                        source: sourceNode,
+                        target: targetNode,
                         strength: sharedActors.length
                     });
                 }
             }
         }
 
+        // Create SVG elements
+        const linkElements = [];
+        const nodeElements = [];
+
         // Render links
         links.forEach(link => {
-            const sourceNode = nodes.find(n => n.id === link.source);
-            const targetNode = nodes.find(n => n.id === link.target);
-
-            if (sourceNode && targetNode) {
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('class', 'graph-link');
-                line.setAttribute('x1', sourceNode.x);
-                line.setAttribute('y1', sourceNode.y);
-                line.setAttribute('x2', targetNode.x);
-                line.setAttribute('y2', targetNode.y);
-                line.setAttribute('stroke-width', link.strength);
-                svg.appendChild(line);
-            }
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('class', 'graph-link');
+            line.setAttribute('stroke-width', link.strength);
+            svg.appendChild(line);
+            linkElements.push({ element: line, link: link });
         });
 
         // Render nodes
         nodes.forEach(node => {
             const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             g.setAttribute('class', 'graph-node');
-            g.setAttribute('transform', `translate(${node.x}, ${node.y})`);
             g.style.cursor = 'pointer';
 
             const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -195,7 +198,7 @@ class StoriesView {
             text.setAttribute('dy', node.r + 15);
             text.setAttribute('fill', '#d1d5db');
             text.setAttribute('font-size', '12');
-            text.textContent = node.story.title.substring(0, 20) + '...';
+            text.textContent = node.story.title.substring(0, 25) + '...';
 
             g.appendChild(circle);
             g.appendChild(text);
@@ -205,7 +208,105 @@ class StoriesView {
             g.addEventListener('click', () => {
                 this.selectStory(node.story);
             });
+
+            nodeElements.push({ element: g, node: node });
         });
+
+        // Force-directed simulation
+        const simulate = () => {
+            const alpha = 0.3; // cooling factor
+            const linkStrength = 0.1;
+            const repulsion = 3000;
+            const centerStrength = 0.05;
+
+            // Apply forces
+            nodes.forEach(node => {
+                // Reset acceleration
+                let ax = 0;
+                let ay = 0;
+
+                // Repulsion between nodes
+                nodes.forEach(other => {
+                    if (node === other) return;
+
+                    const dx = node.x - other.x;
+                    const dy = node.y - other.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                    if (dist < 300) {
+                        const force = repulsion / (dist * dist);
+                        ax += (dx / dist) * force;
+                        ay += (dy / dist) * force;
+                    }
+                });
+
+                // Link attraction
+                links.forEach(link => {
+                    if (link.source === node) {
+                        const dx = link.target.x - node.x;
+                        const dy = link.target.y - node.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        const force = dist * linkStrength * link.strength;
+
+                        ax += (dx / dist) * force;
+                        ay += (dy / dist) * force;
+                    } else if (link.target === node) {
+                        const dx = link.source.x - node.x;
+                        const dy = link.source.y - node.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        const force = dist * linkStrength * link.strength;
+
+                        ax += (dx / dist) * force;
+                        ay += (dy / dist) * force;
+                    }
+                });
+
+                // Center attraction
+                const centerX = width / 2;
+                const centerY = height / 2;
+                ax += (centerX - node.x) * centerStrength;
+                ay += (centerY - node.y) * centerStrength;
+
+                // Update velocity with damping
+                node.vx = (node.vx + ax) * 0.85;
+                node.vy = (node.vy + ay) * 0.85;
+
+                // Update position
+                node.x += node.vx;
+                node.y += node.vy;
+
+                // Boundary constraints
+                const padding = node.r + 10;
+                node.x = Math.max(padding, Math.min(width - padding, node.x));
+                node.y = Math.max(padding, Math.min(height - padding, node.y));
+            });
+
+            // Update DOM elements
+            linkElements.forEach(({ element, link }) => {
+                element.setAttribute('x1', link.source.x);
+                element.setAttribute('y1', link.source.y);
+                element.setAttribute('x2', link.target.x);
+                element.setAttribute('y2', link.target.y);
+            });
+
+            nodeElements.forEach(({ element, node }) => {
+                element.setAttribute('transform', `translate(${node.x}, ${node.y})`);
+            });
+
+            // Continue simulation
+            this.simulation = requestAnimationFrame(simulate);
+        };
+
+        // Start simulation
+        simulate();
+
+        // Stop simulation after some time to save resources
+        setTimeout(() => {
+            if (this.simulation) {
+                cancelAnimationFrame(this.simulation);
+                this.simulation = null;
+            }
+        }, 10000); // Stop after 10 seconds
     }
 
     renderTree() {

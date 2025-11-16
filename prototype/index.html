@@ -44,8 +44,10 @@
 
         <!-- Main Content Area -->
         <div class="app-body">
-            <!-- LEFT PANEL: Stories Navigation -->
-            <div class="panel left-panel" id="leftPanel">
+            <!-- TOP PANELS CONTAINER -->
+            <div class="top-panels">
+                <!-- LEFT PANEL: Stories Navigation -->
+                <div class="panel left-panel" id="leftPanel">
                 <div class="panel-header">
                     <h2 class="panel-title">Stories</h2>
                     <div class="panel-controls">
@@ -121,49 +123,56 @@
             <!-- Resizer for center panel -->
             <div class="resizer" id="centerResizer" data-direction="horizontal"></div>
 
-            <!-- RIGHT PANEL: Context Panel (Actors/Timeline) -->
-            <div class="panel right-panel" id="rightPanel">
-                <!-- Tab Switcher -->
-                <div class="panel-header">
-                    <div class="tab-switcher">
-                        <button class="tab-btn active" data-tab="timeline">Timeline</button>
-                        <button class="tab-btn" data-tab="actors">Actors</button>
-                        <button class="tab-btn" data-tab="analytics">Analytics</button>
+            <!-- RIGHT PANEL: Context Panel (Actors/Analytics) -->
+                <div class="panel right-panel" id="rightPanel">
+                    <!-- Tab Switcher -->
+                    <div class="panel-header">
+                        <div class="tab-switcher">
+                            <button class="tab-btn active" data-tab="actors">Actors</button>
+                            <button class="tab-btn" data-tab="analytics">Analytics</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="panel-content">
-                    <!-- Timeline Tab -->
-                    <div class="tab-content active" id="timelineTab">
-                        <div class="timeline-controls">
-                            <button class="filter-btn active" data-filter="all">All</button>
-                            <button class="filter-btn" data-filter="facts">Facts 🔵</button>
-                            <button class="filter-btn" data-filter="opinions">Opinions 🟠</button>
-                            <div class="zoom-controls">
-                                <button class="zoom-btn" id="zoomOut">−</button>
-                                <button class="zoom-btn" id="zoomReset">⊙</button>
-                                <button class="zoom-btn" id="zoomIn">+</button>
+                    <div class="panel-content">
+                        <!-- Actors Tab -->
+                        <div class="tab-content active" id="actorsTab">
+                            <div class="actors-list-compact" id="actorsListCompact">
+                                <!-- Compact actors list will be rendered here -->
                             </div>
                         </div>
 
-                        <div class="timeline-container" id="timelineContainer">
-                            <!-- Timeline will be rendered here -->
+                        <!-- Analytics Tab -->
+                        <div class="tab-content" id="analyticsTab">
+                            <div class="analytics-container" id="analyticsContainer">
+                                <!-- Analytics charts will be rendered here -->
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- End of top-panels -->
 
-                    <!-- Actors Tab -->
-                    <div class="tab-content" id="actorsTab">
-                        <div class="actors-list-compact" id="actorsListCompact">
-                            <!-- Compact actors list will be rendered here -->
-                        </div>
-                    </div>
+            <!-- Vertical Resizer -->
+            <div class="resizer vertical-resizer" id="bottomResizer" data-direction="vertical"></div>
 
-                    <!-- Analytics Tab -->
-                    <div class="tab-content" id="analyticsTab">
-                        <div class="analytics-container" id="analyticsContainer">
-                            <!-- Analytics charts will be rendered here -->
+            <!-- BOTTOM PANEL: Timeline -->
+            <div class="panel bottom-panel" id="bottomPanel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Timeline</h2>
+                    <div class="timeline-controls-inline">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="facts">Facts 🔵</button>
+                        <button class="filter-btn" data-filter="opinions">Opinions 🟠</button>
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" id="zoomOut">−</button>
+                            <button class="zoom-btn" id="zoomReset">⊙</button>
+                            <button class="zoom-btn" id="zoomIn">+</button>
                         </div>
                     </div>
+                </div>
+
+                <div class="panel-content" id="timelineContainer">
+                    <!-- Timeline will be rendered here -->
                 </div>
             </div>
         </div>

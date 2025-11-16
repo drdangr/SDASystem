@@ -16,6 +16,7 @@ class LayoutManager {
         // Setup resizers
         const leftResizer = document.getElementById('leftResizer');
         const centerResizer = document.getElementById('centerResizer');
+        const bottomResizer = document.getElementById('bottomResizer');
 
         if (leftResizer) {
             this.setupResizer(leftResizer, 'left');
@@ -23,6 +24,10 @@ class LayoutManager {
 
         if (centerResizer) {
             this.setupResizer(centerResizer, 'right');
+        }
+
+        if (bottomResizer) {
+            this.setupResizer(bottomResizer, 'bottom');
         }
 
         // Setup view mode switcher
@@ -39,19 +44,29 @@ class LayoutManager {
     }
 
     setupResizer(resizer, side) {
+        const isVertical = side === 'bottom';
+
         resizer.addEventListener('mousedown', (e) => {
             this.isResizing = true;
             this.currentResizer = resizer;
+            this.currentSide = side;
             this.startX = e.clientX;
+            this.startY = e.clientY;
 
-            const panel = side === 'left'
-                ? document.getElementById('leftPanel')
-                : document.getElementById('rightPanel');
-
-            this.startWidth = panel.offsetWidth;
+            let panel;
+            if (side === 'left') {
+                panel = document.getElementById('leftPanel');
+                this.startWidth = panel.offsetWidth;
+            } else if (side === 'right') {
+                panel = document.getElementById('rightPanel');
+                this.startWidth = panel.offsetWidth;
+            } else if (side === 'bottom') {
+                panel = document.getElementById('bottomPanel');
+                this.startHeight = panel.offsetHeight;
+            }
 
             resizer.classList.add('resizing');
-            document.body.style.cursor = 'col-resize';
+            document.body.style.cursor = isVertical ? 'row-resize' : 'col-resize';
             document.body.style.userSelect = 'none';
 
             // Add global mouse move and mouse up listeners
@@ -63,31 +78,52 @@ class LayoutManager {
     handleMouseMove = (e) => {
         if (!this.isResizing) return;
 
-        const delta = e.clientX - this.startX;
-        const isLeftPanel = this.currentResizer.id === 'leftResizer';
+        const side = this.currentSide;
 
-        let newWidth;
-        if (isLeftPanel) {
-            newWidth = this.startWidth + delta;
+        if (side === 'bottom') {
+            // Vertical resizing for bottom panel
+            const delta = this.startY - e.clientY; // Inverted because we're resizing from top
+            let newHeight = this.startHeight + delta;
+
+            // Min and max constraints
+            const minHeight = 150;
+            const maxHeight = 600;
+
+            newHeight = Math.max(minHeight, Math.min(maxHeight, newHeight));
+
+            const panel = document.getElementById('bottomPanel');
+            panel.style.height = newHeight + 'px';
+
+            // Update CSS variable
+            document.documentElement.style.setProperty('--bottom-panel-height', newHeight + 'px');
         } else {
-            newWidth = this.startWidth - delta;
+            // Horizontal resizing for left/right panels
+            const delta = e.clientX - this.startX;
+            const isLeftPanel = side === 'left';
+
+            let newWidth;
+            if (isLeftPanel) {
+                newWidth = this.startWidth + delta;
+            } else {
+                newWidth = this.startWidth - delta;
+            }
+
+            // Min and max constraints
+            const minWidth = 250;
+            const maxWidth = 600;
+
+            newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+
+            const panel = isLeftPanel
+                ? document.getElementById('leftPanel')
+                : document.getElementById('rightPanel');
+
+            panel.style.width = newWidth + 'px';
+
+            // Update CSS variable
+            const varName = isLeftPanel ? '--left-panel-width' : '--right-panel-width';
+            document.documentElement.style.setProperty(varName, newWidth + 'px');
         }
-
-        // Min and max constraints
-        const minWidth = 250;
-        const maxWidth = 600;
-
-        newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
-
-        const panel = isLeftPanel
-            ? document.getElementById('leftPanel')
-            : document.getElementById('rightPanel');
-
-        panel.style.width = newWidth + 'px';
-
-        // Update CSS variable
-        const varName = isLeftPanel ? '--left-panel-width' : '--right-panel-width';
-        document.documentElement.style.setProperty(varName, newWidth + 'px');
     }
 
     handleMouseUp = () => {
