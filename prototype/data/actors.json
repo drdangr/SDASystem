@@ -1,0 +1,100 @@
+{
+  "actors": [
+    {
+      "id": "actor_001",
+      "canonical_name": "OpenAI",
+      "type": "company",
+      "aliases": ["Open AI", "OpenAI Inc", "OpenAI LP"],
+      "status": "active",
+      "mentions_count": 247,
+      "trend": "up",
+      "top_domains": ["techcrunch.com", "theverge.com", "arstechnica.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-16T08:30:00Z"
+    },
+    {
+      "id": "actor_002",
+      "canonical_name": "Sam Altman",
+      "type": "person",
+      "aliases": ["Samuel Altman", "S. Altman"],
+      "status": "active",
+      "mentions_count": 189,
+      "trend": "stable",
+      "top_domains": ["techcrunch.com", "bloomberg.com", "reuters.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-15T14:20:00Z"
+    },
+    {
+      "id": "actor_003",
+      "canonical_name": "Microsoft",
+      "type": "company",
+      "aliases": ["MSFT", "Microsoft Corporation"],
+      "status": "active",
+      "mentions_count": 412,
+      "trend": "up",
+      "top_domains": ["bloomberg.com", "wsj.com", "cnbc.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-16T09:15:00Z"
+    },
+    {
+      "id": "actor_004",
+      "canonical_name": "European Union",
+      "type": "country",
+      "aliases": ["EU", "Евросоюз"],
+      "status": "active",
+      "mentions_count": 324,
+      "trend": "stable",
+      "top_domains": ["politico.eu", "euronews.com", "reuters.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-16T07:45:00Z"
+    },
+    {
+      "id": "actor_005",
+      "canonical_name": "Google DeepMind",
+      "type": "organization",
+      "aliases": ["DeepMind", "Google AI"],
+      "status": "active",
+      "mentions_count": 156,
+      "trend": "up",
+      "top_domains": ["theverge.com", "arstechnica.com", "nature.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-15T16:30:00Z"
+    },
+    {
+      "id": "actor_006",
+      "canonical_name": "Elon Musk",
+      "type": "person",
+      "aliases": ["Илон Маск", "E. Musk"],
+      "status": "active",
+      "mentions_count": 534,
+      "trend": "down",
+      "top_domains": ["twitter.com", "techcrunch.com", "bloomberg.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-16T10:00:00Z"
+    },
+    {
+      "id": "actor_007",
+      "canonical_name": "xAI",
+      "type": "company",
+      "aliases": ["X.AI", "x.ai"],
+      "status": "active",
+      "mentions_count": 98,
+      "trend": "up",
+      "top_domains": ["techcrunch.com", "theverge.com"],
+      "created_at": "2024-03-10T10:00:00Z",
+      "updated_at": "2024-11-16T09:00:00Z"
+    },
+    {
+      "id": "actor_008",
+      "canonical_name": "US Congress",
+      "type": "organization",
+      "aliases": ["Congress", "Конгресс США"],
+      "status": "active",
+      "mentions_count": 267,
+      "trend": "stable",
+      "top_domains": ["politico.com", "thehill.com", "washingtonpost.com"],
+      "created_at": "2024-01-15T10:00:00Z",
+      "updated_at": "2024-11-15T18:20:00Z"
+    }
+  ]
+}

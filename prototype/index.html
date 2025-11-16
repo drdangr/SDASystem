@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Driven Analytical System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Main App Container -->
+    <div class="app">
+        <!-- Header with Global Controls -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1 class="app-title">Story Driven Analytics</h1>
+            </div>
+
+            <div class="header-center">
+                <!-- Global Search -->
+                <div class="search-container">
+                    <input type="text" id="globalSearch" class="global-search" placeholder="Search (Ctrl+K)...">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <!-- View Mode Switcher -->
+                <div class="view-mode-switcher">
+                    <button class="view-btn active" data-view="list" title="List View">📋</button>
+                    <button class="view-btn" data-view="graph" title="Graph View">🕸️</button>
+                    <button class="view-btn" data-view="tree" title="Domain Tree">🌳</button>
+                </div>
+
+                <!-- Filters -->
+                <button class="toolbar-btn" id="filtersBtn" title="Filters">📊</button>
+
+                <!-- Explain Mode -->
+                <button class="toolbar-btn" id="explainModeBtn" title="Explain Mode">🧠</button>
+
+                <!-- Theme Toggle -->
+                <button class="toolbar-btn" id="themeToggle" title="Toggle Theme">🌙</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="app-body">
+            <!-- TOP PANELS CONTAINER -->
+            <div class="top-panels">
+                <!-- LEFT PANEL: Stories Navigation -->
+                <div class="panel left-panel" id="leftPanel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Stories</h2>
+                    <div class="panel-controls">
+                        <select id="storySortBy" class="mini-select">
+                            <option value="relevance">Relevance</option>
+                            <option value="freshness">Freshness</option>
+                            <option value="size">Size</option>
+                            <option value="cohesion">Cohesion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel-content">
+                    <!-- View Container (switches between list/graph/tree) -->
+                    <div id="storiesViewContainer">
+                        <!-- List View -->
+                        <div class="stories-list view-mode active" data-view="list" id="storiesList">
+                            <!-- Stories will be rendered here -->
+                        </div>
+
+                        <!-- Graph View -->
+                        <div class="stories-graph view-mode" data-view="graph" id="storiesGraph">
+                            <div class="graph-container">
+                                <svg id="storiesGraphSvg" width="100%" height="100%"></svg>
+                            </div>
+                        </div>
+
+                        <!-- Tree View (Domain Tree) -->
+                        <div class="stories-tree view-mode" data-view="tree" id="storiesTree">
+                            <div class="tree-container" id="domainTree">
+                                <!-- Domain tree will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resizer for left panel -->
+            <div class="resizer" id="leftResizer" data-direction="horizontal"></div>
+
+            <!-- CENTER PANEL: Story/Actor/Post Details -->
+            <div class="panel center-panel" id="centerPanel">
+                <div class="panel-header">
+                    <div class="breadcrumb" id="breadcrumb">
+                        <span class="breadcrumb-item">Select a story</span>
+                    </div>
+                    <div class="panel-controls">
+                        <button class="icon-btn" id="refreshBtn" title="Refresh">🔄</button>
+                        <button class="icon-btn" id="editBtn" title="Edit">✏️</button>
+                    </div>
+                </div>
+
+                <div class="panel-content" id="centerContent">
+                    <!-- Welcome Screen -->
+                    <div class="welcome-screen" id="welcomeScreen">
+                        <div class="welcome-icon">📖</div>
+                        <h2>Welcome to Story Driven Analytics</h2>
+                        <p>Select a story from the left panel to view details</p>
+                    </div>
+
+                    <!-- Story Card (hidden initially) -->
+                    <div class="story-detail" id="storyDetail" style="display: none;">
+                        <!-- Story details will be rendered here -->
+                    </div>
+
+                    <!-- Actor Card (hidden initially) -->
+                    <div class="actor-detail" id="actorDetail" style="display: none;">
+                        <!-- Actor details will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resizer for center panel -->
+            <div class="resizer" id="centerResizer" data-direction="horizontal"></div>
+
+            <!-- RIGHT PANEL: Context Panel (Actors/Analytics) -->
+                <div class="panel right-panel" id="rightPanel">
+                    <!-- Tab Switcher -->
+                    <div class="panel-header">
+                        <div class="tab-switcher">
+                            <button class="tab-btn active" data-tab="actors">Actors</button>
+                            <button class="tab-btn" data-tab="analytics">Analytics</button>
+                        </div>
+                    </div>
+
+                    <div class="panel-content">
+                        <!-- Actors Tab -->
+                        <div class="tab-content active" id="actorsTab">
+                            <div class="actors-list-compact" id="actorsListCompact">
+                                <!-- Compact actors list will be rendered here -->
+                            </div>
+                        </div>
+
+                        <!-- Analytics Tab -->
+                        <div class="tab-content" id="analyticsTab">
+                            <div class="analytics-container" id="analyticsContainer">
+                                <!-- Analytics charts will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of top-panels -->
+
+            <!-- Vertical Resizer -->
+            <div class="resizer vertical-resizer" id="bottomResizer" data-direction="vertical"></div>
+
+            <!-- BOTTOM PANEL: Timeline -->
+            <div class="panel bottom-panel" id="bottomPanel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Timeline</h2>
+                    <div class="timeline-controls-inline">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="facts">Facts 🔵</button>
+                        <button class="filter-btn" data-filter="opinions">Opinions 🟠</button>
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" id="zoomOut">−</button>
+                            <button class="zoom-btn" id="zoomReset">⊙</button>
+                            <button class="zoom-btn" id="zoomIn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-content" id="timelineContainer">
+                    <!-- Timeline will be rendered here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Panel (Slide-in) -->
+        <div class="slide-panel" id="filtersPanel">
+            <div class="slide-panel-header">
+                <h3>Filters</h3>
+                <button class="close-btn" id="closeFilters">×</button>
+            </div>
+            <div class="slide-panel-content">
+                <div class="filter-group">
+                    <label>Domain</label>
+                    <select id="domainFilter" class="filter-select">
+                        <option value="all">All Domains</option>
+                        <option value="technology">Technology</option>
+                        <option value="politics">Politics</option>
+                        <option value="economy">Economy</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Period</label>
+                    <select id="periodFilter" class="filter-select">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Source Type</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" checked> News</label>
+                        <label><input type="checkbox" checked> Social Media</label>
+                        <label><input type="checkbox" checked> Official</label>
+                    </div>
+                </div>
+
+                <button class="apply-btn">Apply Filters</button>
+            </div>
+        </div>
+
+        <!-- Editorial Tools Panel (Slide-in) -->
+        <div class="slide-panel" id="editorialPanel">
+            <div class="slide-panel-header">
+                <h3>Editorial Tools</h3>
+                <button class="close-btn" id="closeEditorial">×</button>
+            </div>
+            <div class="slide-panel-content">
+                <button class="tool-btn">🧩 Merge Stories</button>
+                <button class="tool-btn">✂️ Split Story</button>
+                <button class="tool-btn">❄️ Freeze Story</button>
+                <button class="tool-btn">📌 Pin Actor</button>
+                <button class="tool-btn">🪄 Smart Suggest</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/stories-view.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/actors-panel.js"></script>
+    <script src="js/interactions.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

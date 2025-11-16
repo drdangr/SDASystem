@@ -1,0 +1,151 @@
+{
+  "stories": [
+    {
+      "id": "story_001",
+      "title": "GPT-5 Launch and Industry Response",
+      "summary": "OpenAI launches GPT-5 with revolutionary capabilities, triggering competitive responses from Google and xAI.",
+      "bullets": [
+        "OpenAI releases GPT-5 with advanced reasoning capabilities",
+        "Microsoft deepens partnership with $10B investment",
+        "Google DeepMind responds with Gemini 2.0 launch",
+        "Competition intensifies in foundation model space"
+      ],
+      "status": "active",
+      "relevance": 0.95,
+      "cohesion": 0.88,
+      "size": 6,
+      "freshness": 0.98,
+      "created_at": "2024-11-15T14:30:00Z",
+      "updated_at": "2024-11-16T10:00:00Z",
+      "posts": ["post_001", "post_002", "post_005", "post_007", "post_009", "post_006"],
+      "top_actors": ["actor_001", "actor_002", "actor_003", "actor_005", "actor_007"],
+      "top_domains": ["techcrunch.com", "bloomberg.com", "theverge.com", "wsj.com"],
+      "timeline": [
+        {
+          "date": "2024-11-15T14:30:00Z",
+          "type": "fact",
+          "content": "OpenAI launches GPT-5",
+          "post_id": "post_001"
+        },
+        {
+          "date": "2024-11-15T16:00:00Z",
+          "type": "fact",
+          "content": "Microsoft announces $10B investment",
+          "post_id": "post_002"
+        },
+        {
+          "date": "2024-11-16T08:00:00Z",
+          "type": "fact",
+          "content": "Google DeepMind launches Gemini 2.0",
+          "post_id": "post_005"
+        },
+        {
+          "date": "2024-11-16T10:00:00Z",
+          "type": "fact",
+          "content": "Microsoft integrates GPT-5 into Office",
+          "post_id": "post_009"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.85,
+        "actor_overlap": 0.90,
+        "domain_similarity": 0.75,
+        "temporal_proximity": 0.95
+      }
+    },
+    {
+      "id": "story_002",
+      "title": "AI Regulation and Safety Concerns",
+      "summary": "Growing regulatory scrutiny from EU and US Congress, alongside AI safety warnings from researchers.",
+      "bullets": [
+        "EU proposes stricter AI Act amendments for foundation models",
+        "US Congress announces AI safety hearings",
+        "AI researchers publish safety concerns letter",
+        "Transatlantic regulatory divide emerges"
+      ],
+      "status": "active",
+      "relevance": 0.87,
+      "cohesion": 0.82,
+      "size": 4,
+      "freshness": 0.85,
+      "created_at": "2024-11-14T10:00:00Z",
+      "updated_at": "2024-11-15T18:00:00Z",
+      "posts": ["post_003", "post_004", "post_008", "post_010"],
+      "top_actors": ["actor_004", "actor_008", "actor_001", "actor_002"],
+      "top_domains": ["politico.eu", "thehill.com", "politico.com", "arxiv.org"],
+      "timeline": [
+        {
+          "date": "2024-11-14T10:00:00Z",
+          "type": "fact",
+          "content": "EU drafts new AI Act amendments",
+          "post_id": "post_003"
+        },
+        {
+          "date": "2024-11-14T15:00:00Z",
+          "type": "opinion",
+          "content": "AI researchers warn about safety risks",
+          "post_id": "post_008"
+        },
+        {
+          "date": "2024-11-15T09:00:00Z",
+          "type": "fact",
+          "content": "Congress calls for AI safety hearings",
+          "post_id": "post_004"
+        },
+        {
+          "date": "2024-11-15T18:00:00Z",
+          "type": "fact",
+          "content": "US-EU regulatory approaches diverge",
+          "post_id": "post_010"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.78,
+        "actor_overlap": 0.65,
+        "domain_similarity": 0.70,
+        "temporal_proximity": 0.80
+      }
+    },
+    {
+      "id": "story_003",
+      "title": "xAI Funding and Competitive Positioning",
+      "summary": "Elon Musk's xAI raises $6B to compete in the AI foundation model market.",
+      "bullets": [
+        "xAI secures $6B in latest funding round",
+        "Company valuation reaches $24B",
+        "Plans to launch Grok 3.0 next quarter",
+        "Positions as competitor to OpenAI and Google"
+      ],
+      "status": "active",
+      "relevance": 0.78,
+      "cohesion": 0.90,
+      "size": 2,
+      "freshness": 0.92,
+      "created_at": "2024-11-15T12:00:00Z",
+      "updated_at": "2024-11-16T07:00:00Z",
+      "posts": ["post_006", "post_007"],
+      "top_actors": ["actor_006", "actor_007", "actor_001", "actor_005"],
+      "top_domains": ["techcrunch.com", "wsj.com"],
+      "timeline": [
+        {
+          "date": "2024-11-15T12:00:00Z",
+          "type": "fact",
+          "content": "xAI raises $6B funding",
+          "post_id": "post_006"
+        },
+        {
+          "date": "2024-11-16T07:00:00Z",
+          "type": "opinion",
+          "content": "Analysts discuss intensifying AI competition",
+          "post_id": "post_007"
+        }
+      ],
+      "similarity_breakdown": {
+        "semantic_similarity": 0.88,
+        "actor_overlap": 0.95,
+        "domain_similarity": 0.60,
+        "temporal_proximity": 0.85
+      }
+    }
+  ]
+}

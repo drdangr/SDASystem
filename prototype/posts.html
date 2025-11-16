@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts - Story Driven Analytical System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">Story Driven Analytics</h1>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Stories</a>
+                    <a href="actors.html" class="nav-link">Actors</a>
+                    <a href="posts.html" class="nav-link active">Posts</a>
+                </nav>
+                <div class="header-actions">
+                    <input type="search" class="search-input" placeholder="Search posts...">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Filters -->
+            <div class="toolbar">
+                <div class="filters">
+                    <select class="filter-select" id="sentimentFilter">
+                        <option value="all">All Sentiments</option>
+                        <option value="positive">Positive</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="negative">Negative</option>
+                    </select>
+                    <select class="filter-select" id="sortPostsBy">
+                        <option value="recent">Most Recent</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Posts List -->
+            <div class="posts-container" id="postsContainer">
+                <!-- Posts will be loaded here via JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/posts.js"></script>
+</body>
+</html>
