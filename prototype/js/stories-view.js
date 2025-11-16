@@ -225,7 +225,7 @@ class StoriesView {
                 let ax = 0;
                 let ay = 0;
 
-                // Repulsion between nodes
+                // Repulsion between nodes with collision detection
                 nodes.forEach(other => {
                     if (node === other) return;
 
@@ -233,7 +233,17 @@ class StoriesView {
                     const dy = node.y - other.y;
                     const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
-                    if (dist < 300) {
+                    // Minimum distance based on node radii
+                    const minDist = node.r + other.r + 20; // 20px padding
+
+                    // Strong repulsion when nodes are too close (collision)
+                    if (dist < minDist) {
+                        const force = repulsion * 2 / (dist * dist);
+                        ax += (dx / dist) * force;
+                        ay += (dy / dist) * force;
+                    }
+                    // Normal repulsion at medium distance
+                    else if (dist < 300) {
                         const force = repulsion / (dist * dist);
                         ax += (dx / dist) * force;
                         ay += (dy / dist) * force;
@@ -280,6 +290,30 @@ class StoriesView {
                 node.x = Math.max(padding, Math.min(width - padding, node.x));
                 node.y = Math.max(padding, Math.min(height - padding, node.y));
             });
+
+            // Post-process: separate overlapping nodes
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const nodeA = nodes[i];
+                    const nodeB = nodes[j];
+
+                    const dx = nodeB.x - nodeA.x;
+                    const dy = nodeB.y - nodeA.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    const minDist = nodeA.r + nodeB.r + 20;
+
+                    // If overlapping, push them apart
+                    if (dist < minDist) {
+                        const pushDist = (minDist - dist) / 2;
+                        const angle = Math.atan2(dy, dx);
+
+                        nodeA.x -= Math.cos(angle) * pushDist;
+                        nodeA.y -= Math.sin(angle) * pushDist;
+                        nodeB.x += Math.cos(angle) * pushDist;
+                        nodeB.y += Math.sin(angle) * pushDist;
+                    }
+                }
+            }
 
             // Update DOM elements
             linkElements.forEach(({ element, link }) => {
