@@ -1244,3 +1244,208 @@ body {
         cursor: row-resize;
     }
 }
+
+/* ============================================
+   GRAPH MODULES - Двухслойный граф
+   ============================================ */
+
+.graph-svg {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+}
+
+/* Слои связей */
+.layer1-group .graph-link {
+    stroke: var(--primary);
+    stroke-width: 2;
+    opacity: 0.4;
+    transition: opacity 0.2s, stroke-width 0.2s;
+}
+
+.layer2-group .graph-link {
+    stroke: var(--success);
+    stroke-width: 2;
+    opacity: 0.5;
+    stroke-dasharray: 5, 5;
+    transition: opacity 0.2s, stroke-width 0.2s;
+}
+
+/* Узлы графа */
+.nodes-group .graph-node {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nodes-group .graph-node:hover {
+    transform: scale(1.1);
+}
+
+.nodes-group .graph-node circle {
+    transition: r 0.2s, fill 0.2s, stroke 0.2s;
+}
+
+.nodes-group .graph-node text {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Подсветка при наведении */
+.graph-link.highlighted {
+    opacity: 1 !important;
+    stroke-width: 4 !important;
+}
+
+.graph-node.highlighted circle {
+    fill: var(--warning) !important;
+    stroke: var(--warning) !important;
+    stroke-width: 3;
+}
+
+/* Выбранный узел */
+.graph-node.selected circle {
+    stroke: var(--warning);
+    stroke-width: 4;
+}
+
+/* Кластеры */
+.graph-node[data-cluster] circle {
+    fill: var(--warning);
+}
+
+/* Анимация появления */
+@keyframes nodeAppear {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.graph-node {
+    animation: nodeAppear 0.3s ease;
+}
+
+/* Информационная панель графа */
+.graph-info {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Легенда */
+.legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 3px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* Контролы графа */
+.graph-controls {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-group input[type="range"] {
+    width: 200px;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--primary-hover);
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+
+.control-group input[type="range"]::-moz-range-thumb:hover {
+    background: var(--primary-hover);
+}
+
+.value-display {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Кнопки режима слоя */
+.layer-mode-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.layer-mode-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+/* Кнопки действий */
+.action-button {
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.action-button:active {
+    transform: scale(0.98);
+}

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Modules Demo - Двухслойный граф с кластеризацией</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .graph-demo-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 20px;
+            background: var(--bg-primary, #0f172a);
+        }
+
+        .graph-controls {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg-secondary, #1e293b);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            color: var(--text-primary, #f1f5f9);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-group input[type="range"] {
+            width: 200px;
+        }
+
+        .control-group .value-display {
+            color: var(--text-secondary, #94a3b8);
+            font-size: 12px;
+        }
+
+        .layer-mode-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .layer-mode-btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary, #334155);
+            color: var(--text-primary, #f1f5f9);
+            border: 1px solid var(--border-color, #475569);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .layer-mode-btn:hover {
+            background: var(--bg-hover, #475569);
+        }
+
+        .layer-mode-btn.active {
+            background: var(--accent-color, #3b82f6);
+            border-color: var(--accent-color, #3b82f6);
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            background: var(--accent-color, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover {
+            background: var(--accent-hover, #2563eb);
+        }
+
+        .action-button.secondary {
+            background: var(--bg-tertiary, #334155);
+        }
+
+        .action-button.secondary:hover {
+            background: var(--bg-hover, #475569);
+        }
+
+        #graphContainer {
+            flex: 1;
+            min-height: 500px;
+            background: var(--bg-primary, #0f172a);
+            border: 1px solid var(--border-color, #475569);
+            border-radius: 8px;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .graph-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 10px 15px;
+            border-radius: 4px;
+            color: var(--text-primary, #f1f5f9);
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        .graph-info-item {
+            margin: 4px 0;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            padding: 10px;
+            background: var(--bg-secondary, #1e293b);
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary, #f1f5f9);
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .legend-color.layer1 {
+            background: #3b82f6;
+        }
+
+        .legend-color.layer2 {
+            background: #10b981;
+            border-style: dashed;
+        }
+    </style>
+</head>
+<body>
+    <div class="graph-demo-container">
+        <h1 style="color: var(--text-primary, #f1f5f9); margin-bottom: 20px;">
+            Двухслойный граф с динамической кластеризацией
+        </h1>
+
+        <div class="graph-controls">
+            <div class="control-group">
+                <label>Уровень кластеризации</label>
+                <input type="range" id="clusterLevelSlider" min="0" max="1" step="0.01" value="0.5">
+                <span class="value-display" id="clusterLevelValue">50%</span>
+            </div>
+
+            <div class="control-group">
+                <label>Режим слоя</label>
+                <div class="layer-mode-buttons">
+                    <button class="layer-mode-btn active" data-mode="combined">Оба слоя</button>
+                    <button class="layer-mode-btn" data-mode="layer1">Слой 1 (похожесть)</button>
+                    <button class="layer-mode-btn" data-mode="layer2">Слой 2 (NER)</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Действия</label>
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-button secondary" id="declusterBtn">Декластеризация</button>
+                    <button class="action-button secondary" id="fullDeclusterBtn">Полная декластеризация</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="graphContainer">
+            <div class="graph-info" id="graphInfo">
+                <div class="graph-info-item">Узлов: <span id="nodeCount">0</span></div>
+                <div class="graph-info-item">Связей слой 1: <span id="layer1Count">0</span></div>
+                <div class="graph-info-item">Связей слой 2: <span id="layer2Count">0</span></div>
+                <div class="graph-info-item">Кластеров: <span id="clusterCount">0</span></div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color layer1"></div>
+                <span>Слой 1: Семантическая похожесть</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color layer2"></div>
+                <span>Слой 2: Общие NER (акторы)</span>
+            </div>
+            <div class="legend-item">
+                <span>💡 Кликните на узел для выбора, затем используйте слайдер для кластеризации</span>
+            </div>
+            <div class="legend-item" style="color: var(--text-muted, #9ca3af); font-size: 11px;">
+                ⚠️ Важно: Запустите через локальный сервер (python -m http.server 8000)
+            </div>
+        </div>
+    </div>
+
+    <!-- Cytoscape.js для визуализации графов -->
+    <script src="https://unpkg.com/cytoscape@3.27.0/dist/cytoscape.min.js"></script>
+    
+    <!-- Загрузка существующих скриптов -->
+    <script src="js/app.js"></script>
+    
+    <!-- Новые модули графа -->
+    <script src="js/graph-processor.js"></script>
+    <script src="js/graph-renderer-cytoscape.js"></script>
+    <script src="js/graph-example.js"></script>
+
+    <script>
+        let graphModules = null;
+
+        // Проверка, запущен ли через HTTP сервер
+        function checkServerMode() {
+            if (window.location.protocol === 'file:') {
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: #ef4444;
+                    color: white;
+                    padding: 20px;
+                    text-align: center;
+                    z-index: 10000;
+                    font-weight: bold;
+                `;
+                errorMsg.innerHTML = `
+                    ⚠️ ОШИБКА: Файл открыт через file:// протокол<br>
+                    Запустите локальный сервер для работы с графом:<br>
+                    <code style="background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 4px; margin: 10px;">
+                        cd prototype && python -m http.server 8000
+                    </code><br>
+                    Затем откройте: <code style="background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 4px;">http://localhost:8000/graph-demo.html</code>
+                `;
+                document.body.insertBefore(errorMsg, document.body.firstChild);
+                return false;
+            }
+            return true;
+        }
+
+        // Инициализация после загрузки данных
+        async function init() {
+            // Проверяем режим запуска
+            if (!checkServerMode()) {
+                return;
+            }
+
+            console.log('Загрузка данных...');
+            try {
+                const loaded = await loadData();
+                
+                if (loaded && window.AppData) {
+                    console.log('Данные загружены:', {
+                        posts: window.AppData.posts.length,
+                        actors: window.AppData.actors.length,
+                        relationships: window.AppData.relationships.length
+                    });
+
+                    console.log('Инициализация модулей графа...');
+                    graphModules = initGraphModules();
+                    
+                    if (graphModules && graphModules.graph) {
+                        // Обновляем информацию о графе
+                        updateGraphInfo(graphModules.graph);
+                        
+                        // Обновляем информацию при изменении графа
+                        window.addEventListener('graphUpdated', (e) => {
+                            updateGraphInfo(e.detail.graph);
+                        });
+                    } else {
+                        console.error('Не удалось инициализировать модули графа');
+                        showError('Не удалось инициализировать граф. Проверьте консоль для деталей.');
+                    }
+                } else {
+                    console.error('Не удалось загрузить данные');
+                    showError('Не удалось загрузить данные. Убедитесь, что файлы данных находятся в папке data/');
+                }
+            } catch (error) {
+                console.error('Ошибка при инициализации:', error);
+                showError('Ошибка при загрузке: ' + error.message);
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(239, 68, 68, 0.9);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 8px;
+                text-align: center;
+                z-index: 1000;
+                max-width: 500px;
+            `;
+            errorDiv.textContent = message;
+            document.getElementById('graphContainer').appendChild(errorDiv);
+        }
+
+        function updateGraphInfo(graph) {
+            if (!graph || !graph.metadata) return;
+            
+            document.getElementById('nodeCount').textContent = graph.metadata.totalNodes || 0;
+            document.getElementById('layer1Count').textContent = graph.metadata.layer1Connections || 0;
+            document.getElementById('layer2Count').textContent = graph.metadata.layer2Connections || 0;
+            document.getElementById('clusterCount').textContent = graph.metadata.totalClusters || 0;
+        }
+
+        // Запуск при загрузке страницы
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
+
